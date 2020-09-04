@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Order done
+{% endblock %}
+
+{% block content %}
+<h1>Order done</h1><br>
+
+<p>Successfully placed the order</p><br>
+{% for item in cart %}
+<span>{{ item.product.name }} : {{ item.quantity }}x , ${{ item.price }}</span><br>
+{% endfor %}
+<span>Total price: ${{ cart.get_total_price }}</span><br>
+<p>The order number is <strong>{{ order.id }}</strong></p>
+
+
+{% endblock %}

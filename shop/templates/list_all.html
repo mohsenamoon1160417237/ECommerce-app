@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Products
+{% endblock %}
+
+{% block content %}<br>
+
+
+<form action="." method="get">
+	{{ s_form.query }}
+	<input class="btn btn-primary" type="submit" value="Search">
+</form><br>
+
+
+
+<h1 align="center">
+  {% if query %}
+  	{% if not products %}
+  	  No results found
+  	{% else %}
+  	  "{{ query }}"
+  	{% endif %}
+  {% else %}
+  Products
+  {% endif %}
+</h1><br>
+
+<dl>
+
+  {% for catalog in catalogs %}
+    <li><a href="{{ catalog.get_absolute_url }}">{{ catalog.name }}</a></li>
+  {% endfor %}
+
+</dl>
+
+
+
+	<div class="row row-cols-3" align="center">
+
+	{% for product in products %}
+	  	
+	  	<div class="row">
+	  	<div class="col">
+	  	  <div class="card h-100 border-light" style="width: 13rem;">
+
+	  	  
+	  	  	
+	  	  	
+
+	      <div class="card-body">
+
+	      	<figure class="figure">
+	      	  {% load thumbnail %}
+	      <a href="{{ product.get_absolute_url }}">
+		  {% thumbnail product.image "180x250" crop="100%" as im  %}
+		  <img src="{{ im.url }}" class="figure-img img-fluid">
+	      </a>
+	      {% endthumbnail %}
+	      <figcaption class="figure-caption">
+	      	<h5>{{ product.name }}</h5>
+	      	<p>${{ product.price }}</p>
+	      </figcaption>
+	      	</figure>
+	      	
+	      
+	      	</div>
+	      
+
+	</div>
+	  </div>
+	</div>
+	{% endfor %}
+	</div>
+
+
+<style type="text/css">
+
+	.row {
+		margin-bottom:40px;
+		margin-top: 30px;
+	}
+
+</style>
+{% include 'pagination.html' with page=products %}
+
+
+{% endblock %}

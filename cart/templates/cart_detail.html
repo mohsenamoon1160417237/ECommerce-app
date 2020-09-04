@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Shopping cart
+{% endblock %}
+
+
+{% block content %}
+<h1>Shopping cart</h1><br>
+
+<table class="table">
+    <thead>
+     <tr>
+      <th scope="col">IMAGE</th>
+      <th scope="col">NAME</th>
+      <th scope="col">QUANTITY</th>
+      <th scope="col">REMOVE</th>
+      <th scope="col">PRICE</th>
+      <th scope="col">UNIT PRICE</th>
+  </tr>
+    </thead>
+  <tbody>
+  
+  	{% for item in cart %}
+  	<tr>
+  	
+  	<td>
+  		{% load thumbnail %}
+  	  <a href="{{ item.product.get_absolute_url }}">
+  	  	{% thumbnail item.product.image "200x200" crop="100%" as im %}
+  	  	<img src="{{ im.url }}">
+  	  </a>
+  	  {% endthumbnail %}
+  	</td>
+  	
+  	<td><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></td>
+  	<td>
+  	  <form action="{% url 'cart:cart_add' item.product.id %}" method="post">
+  	  	{% csrf_token %}
+  	  	{{ item.update_product_quantity.quantity }}
+  	  	{{ item.update_product_quantity.update }}
+  	  	<input class="btn btn-success" type="submit" value="Update">
+  	  </form>
+  	</td>
+  	<td>
+  	  <a href="{% url 'cart:cart_remove' item.product.id %}">Remove</a>
+  	</td>
+  	
+  	<td>${{ item.total_price }}</td>
+  	<td>${{ item.price }}</td>
+  	</tr>
+  	{% endfor %}
+    {% if cart.coupon %}
+    <tr>
+      <td>Subtraction({{ cart.coupon.code }} Coupon)</td>
+      <td colspan="4"></td>
+      <td>-${{ cart.get_discount }}</td>
+    </tr>
+    {% endif %}
+  	<tr>
+  	  <td>Total Price</td>
+  	  <td colspan="4"></td>
+  	  <td>${{ cart.get_total_price_after_discount|floatformat:"2" }}</td>
+  	</tr>
+  
+</tbody>
+</table><br><br>
+
+<form action="{% url 'coupons:coupon_apply' %}" method="post">
+  {% csrf_token %}
+
+  {{ form.code.label_tag }}<br>
+  {{ form.code }}<br><br>
+  <input class="btn btn-primary" type="submit" value="Apply coupon">
+</form><br><br>
+
+<a class="btn btn-primary" href="{% url 'shop:product_list_all' %}">Continiue shopping</a>
+<a class="btn btn-success" href="{% url 'payment:payment' %}">Check out</a>
+
+{% endblock %}

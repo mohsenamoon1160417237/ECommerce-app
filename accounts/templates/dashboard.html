@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ username }} Dashboard
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ username }}</h1><br>
+<br>
+
+{% if orders %}
+Your orders:
+<br><br>
+
+  <ul>
+
+	{% for order in orders %}
+  		<li><a href="{{ order.get_absolute_url }}">Order <strong>{{ order.id }}</strong></a>  ({{ order.pretty_created_date }})</li>
+  
+	{% endfor %}
+
+  </ul>
+{% else %}
+<h5>No orders yet.</h5>
+
+{% endif %}
+
+
+
+{% endblock %}

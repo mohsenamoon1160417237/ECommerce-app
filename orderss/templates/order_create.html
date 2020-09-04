@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Order Form
+{% endblock %}
+
+{% block content %}
+<h1>Order form</h1><br>
+<p>Fill out the form below to complete the shopping process</p><br>
+
+<form action="." method="post">
+	{% csrf_token %}
+	{% for field in form %}
+	 <div>
+	 	{{ field.errors }}<br>
+	 	{{ field.label_tag }}<br>
+	 	{{ field }}
+	 </div>
+	{% endfor %}<br>
+	<input class="btn btn-success" type="submit" value="Send order">
+</form><br>
+
+
+
+
+{% endblock %}

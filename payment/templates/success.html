@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Payment success
+{% endblock %}
+
+{% block content %}
+<h1>Payment was successfull</h1><br>
+<p>Thanks for your payment</p><br>
+<a class="btn btn-primary" href="{% url 'orders:order_create' %}">Send Order</a>
+
+
+{% endblock %}

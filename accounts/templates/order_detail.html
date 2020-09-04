@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ username }}: Order {{ order.id }}
+{% endblock %}
+
+
+{% block content %}
+<h1>Order <strong>{{ order.id }}</strong></h1><br>
+
+<table class="table">
+  	<thead>
+  	  <tr>
+  	    <th>NAME</th>
+  	    <th>QUANTITY</th>
+  	    <th>UNIT PRICE</th>
+  	    <th>ITEM PRICE</th>
+  	    <th>Date</th>
+  	  </tr>
+  	</thead>
+
+  	
+  	
+  {% for orderItem in orderItems %}
+  <tbody>
+
+  	<tr>
+     
+     <td><a href="{{ orderItem.product.get_absolute_url }}">{{ orderItem.product.name }}</a></td>
+     <td>{{ orderItem.quantity }}x</td>
+     <td>${{ orderItem.price|floatformat:"2" }}</td>
+     <td>${{ orderItem.get_cost|floatformat:"2" }}</td>
+
+  
+   {% endfor %}
+	<td>{{ order.pretty_created_date }}</td>
+	</tr>
+   </tbody>
+
+</table>
+<span>Status:<br> <strong>{{ order.status }}</strong></span><br>
+<span>Total price:<br> <strong>${{ order.get_total_cost|floatformat:"2" }}</strong></span>
+
+{% endblock %}

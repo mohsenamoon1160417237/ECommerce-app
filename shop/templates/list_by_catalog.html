@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ catalog.name }}
+{% endblock %}
+
+{% block content %}
+<br>
+
+
+<form action="." method="get">
+	{{ s_form.query }}
+	<input class="btn btn-primary" type="submit" value="Search">
+</form><br>
+
+<h1 align="center">{% if query %}
+  	{% if not products %}
+  	  No results found
+  	{% else %}
+  	  "{{ query }}"
+  	{% endif %}
+  {% else %}
+  {{ catalog.name }}
+  {% endif %}</h1><br>
+
+<ul>
+	<li>
+		<a href="{% url 'shop:product_list_all' %}">All</a>
+	</li>
+		{% for cat in categories %}
+		  <li>
+		  	<a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a><br>
+		  </li>
+		{% endfor %}
+</ul>
+
+	<div class="row row-cols-3" align="center">
+
+	{% for product in products %}
+
+	  <div class="col">
+	  	<div class="row">
+	  	 <div class="col-12">
+	  	<h4><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h4><br>
+	  	{% load thumbnail %}
+	  	  <a href="{{ product.get_absolute_url }}">
+	  	  	{% thumbnail product.image "220x300" crop="100%" as im %}
+	  	  	<img src="{{ im.url }}">
+	  	  </a>
+	  	{% endthumbnail %}<br><br>
+	  	
+	  	<form action="{% url 'cart:cart_add' product.id %}" method="post">
+		{% csrf_token %}
+		{{ form.quantity.label_tag }}
+		{{ form.quantity }}<br><br>
+		<input class="btn btn-primary" type="submit" value="Add to cart">
+	</form><br>
+	  	<p>${{ product.price }}</p>
+	  </div>
+	  </div>
+	  </div>
+	{% endfor %}
+	</div>
+
+<style type="text/css">
+	.row{
+		margin-bottom:50px;
+		margin-top:30px;
+	}
+</style>
+{% include 'pagination.html' with page=products %}
+{% endblock %}
