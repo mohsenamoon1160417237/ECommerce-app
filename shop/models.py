@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.text import slugify
+from .slugify import slugify
 from django.urls import reverse
 '''from whoosh.fields import Schema , TEXT
 from whoosh.analysis import StemmingAnalyzer
