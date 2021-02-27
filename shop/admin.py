@@ -19,7 +19,7 @@ class CatalogAdmin(admin.ModelAdmin):
 	inlines = [CategoryAdmin]
 
 
-@admin.register(ProductDetail)
+
 class ProductDetailAdmin(admin.TabularInline):
 
 	model = ProductDetail
