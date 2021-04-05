@@ -52,21 +52,7 @@ class Dashboard(TemplateResponseMixin , View):
 
 
 
-	def get(self , request , *args , **kwargs):
-
-
-
-
-
-
-
-
-
-
-
 	
-												"""orders':orders,
-												'username':username})"""
 
 
 
